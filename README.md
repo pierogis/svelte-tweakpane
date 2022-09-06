@@ -1,6 +1,6 @@
 # svelte-tweakpane
 
-svelte components for using tweakpane
+svelte components wrapping [tweakpane](https://github.com/cocopon/tweakpane)
 
 ## installation
 
@@ -106,7 +106,6 @@ style in +layout.svelte like so (see [theming](https://cocopon.github.io/tweakpa
 		--tp-container-background-color-hover: #color;
 		--tp-container-foreground-color: #color;
 	}
-
 </style>
 ```
 
@@ -126,5 +125,3 @@ to create a production package with:
 ```bash
 npm run build
 ```
-
-preview the production build with `npm run preview`.
