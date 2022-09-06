@@ -1,0 +1,20 @@
+on:
+  push:
+    tags:
+      - v*
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment: prod
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '16'
+          registry-url: 'https://registry.npmjs.org'
+      - run: npm ci
+      - run: npm run package
+      - run: npm publish ./package --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
