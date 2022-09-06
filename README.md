@@ -12,7 +12,7 @@ npm i --save-dev @pierogis/svelte-tweakpane
 <script lang="ts">
 	import { writable } from 'svelte/store';
 
-	import { Button, Folder, Input, Monitor, Pane, Tab } from '$lib';
+	import { Button, Folder, Input, Monitor, Pane, Tab } from '@pierogis/svelte-tweakpane';
 
 	const title = 'pane';
 
@@ -69,10 +69,43 @@ npm i --save-dev @pierogis/svelte-tweakpane
 
 the container defines the size of the inner pane
 
-also see
-
 ```ts
 import { Button, Folder, Input, Monitor, Pane, Tab } from "@pierogis/svelte-tweakpane"
+```
+
+style in +layout.svelte like so (see [theming](https://cocopon.github.io/tweakpane/theming/) for full list of observed css variables)
+```svelte
+<style>
+	:global(:root) {
+		--tp-base-background-color: #color;
+		--tp-base-shadow-color: #color;
+
+		/* button */
+		--tp-button-background-color: #color;
+		--tp-button-background-color-active: #color;
+		--tp-button-background-color-focus: #color;
+		--tp-button-background-color-hover: #color;
+		--tp-button-foreground-color: #color;
+
+		/* label */
+		--tp-label-background-color: #color;
+		--tp-label-foreground-color: #color;
+
+		/* input */
+		--tp-input-background-color: #color;
+		--tp-input-background-color-active: #color;
+		--tp-input-background-color-focus: #color;
+		--tp-input-background-color-hover: #color;
+		--tp-input-foreground-color: #color;
+
+		--tp-container-background-color: #color;
+		--tp-container-background-color-active: #color;
+		--tp-container-background-color-focus: #color;
+		--tp-container-background-color-hover: #color;
+		--tp-container-foreground-color: #color;
+	}
+
+</style>
 ```
 
 ## development
