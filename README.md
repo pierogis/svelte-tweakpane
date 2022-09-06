@@ -1,5 +1,7 @@
 # svelte-tweakpane
 
+svelte components for using tweakpane
+
 ## installation
 
 ```bash
