@@ -1,9 +1,7 @@
-import Folder from './components/Folder.svelte';
-import Input from './components/Input.svelte';
-import Monitor from './components/Monitor.svelte';
-import Pane from './components/Pane.svelte';
-import Button from './components/Button.svelte';
-import Tab from './components/Tab.svelte';
-import Page from './components/Page.svelte';
-
-export { Folder, Input, Monitor, Pane, Button, Tab, Page };
+export {default as Binding} from './components/Binding.svelte';
+export {default as Blade} from './components/Blade.svelte';
+export {default as Folder} from './components/Folder.svelte';
+export {default as Pane} from './components/Pane.svelte';
+export {default as Button} from './components/Button.svelte';
+export {default as Tab} from './components/Tab.svelte';
+export {default as Page} from './components/Page.svelte';

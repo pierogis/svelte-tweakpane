@@ -6,6 +6,8 @@ svelte components wrapping [tweakpane](https://github.com/cocopon/tweakpane)
 
 ```bash
 npm i --save-dev @pierogis/svelte-tweakpane
+# or
+pnpm add -D @pierogis/svelte-tweakpane
 ```
 
 ## usage
@@ -14,7 +16,7 @@ npm i --save-dev @pierogis/svelte-tweakpane
 <script lang="ts">
 	import { writable } from 'svelte/store';
 
-	import { Button, Folder, Input, Monitor, Pane, Tab } from '@pierogis/svelte-tweakpane';
+	import { Binding, Blade, Button, Folder, Pane, Tab } from '@pierogis/svelte-tweakpane';
 
 	const title = 'pane';
 
@@ -26,30 +28,42 @@ npm i --save-dev @pierogis/svelte-tweakpane
 
 	const key = 'key';
 	const paramsStore = writable({ [key]: 50 });
-	const optParams = {};
+	const monitorParams = {
+		readonly: true,
+		interval: 32
+	};
+	const inputParams = {};
 </script>
-```
 
-```svelte
 <div bind:this={container}>
 	{#if container}
 		<Pane {title} {container} let:pane on:fold={handleFold}>
 			<Tab parent={pane} pages={[{ title: 'input/monitor' }, { title: 'folder' }]} let:tab>
-				<Monitor
+				<Binding
 					parent={tab.pages[0]}
 					{paramsStore}
-					monitorParams={optParams}
+					bindingParams={monitorParams}
 					{key}
-					interval={32}
-					let:monitorElement
+					let:bindingApi
 				/>
-				<Input
+				<Binding
 					parent={tab.pages[0]}
 					{paramsStore}
-					inputParams={optParams}
+					bindingParams={inputParams}
 					onChange={(ev) => console.log(ev.value)}
 					{key}
-					let:inputElement
+					let:bindingApi
+				/>
+				<Blade
+					parent={tab.pages[0]}
+					bladeParams={{
+						view: 'slider',
+						label: 'brightness',
+						min: 0,
+						max: 1,
+						value: 0.5
+					}}
+					let:bladeApi
 				/>
 
 				<Folder tab={{ api: tab, pageIndex: 1 }} title={'folder'} let:folder>
@@ -61,21 +75,18 @@ npm i --save-dev @pierogis/svelte-tweakpane
 </div>
 ```
 
-```svelte
-<style>
-	div {
-		display: flex;
-	}
-</style>
-```
+the container (from `bind:this`) defines the size of the pane
 
-the container defines the size of the inner pane
+### exports
 
 ```ts
-import { Button, Folder, Input, Monitor, Pane, Tab } from "@pierogis/svelte-tweakpane"
+import { Blade, Binding, Button, Folder, Pane, Tab } from "@pierogis/svelte-tweakpane"
 ```
 
-style in +layout.svelte like so (see [theming](https://cocopon.github.io/tweakpane/theming/) for full list of observed css variables)
+### theming
+
+style in a `+layout.svelte` like so (see [theming](https://cocopon.github.io/tweakpane/theming/) for full list of observed css variables)
+
 ```svelte
 <style>
 	:global(:root) {
@@ -111,17 +122,29 @@ style in +layout.svelte like so (see [theming](https://cocopon.github.io/tweakpa
 
 ## development
 
-install dependencies with `npm install`
+clone the repo
+install dependencies with `pnpm i`
 start a development server with:
 
 ```bash
-npm run dev
+pnpm dev
 ```
 
-## building
+## release
 
-to create a production package with:
+- push with necessary changesets
+- gh action will make a version PR
+- create prerelease (if needed)
 
-```bash
-npm run build
+```
+pnpm changeset pre enter next
+pnpm changeset version
+pnpm changeset publish
+```
+
+- merge changeset version pr and pull
+- publish release
+
+```
+pnpm changeset publish
 ```

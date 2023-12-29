@@ -1,7 +1,14 @@
 <script lang="ts">
 	import { createEventDispatcher, onDestroy } from 'svelte';
 
-	import type { TpUpdateEvent, TpTabSelectEvent, TpChangeEvent } from '@tweakpane/core';
+	import type {
+		TpTabSelectEvent,
+		TpChangeEvent,
+		TabApi,
+		BladeApi,
+		BladeController,
+		View
+	} from '@tweakpane/core';
 	import type { FolderApi, Pane, TabPageApi } from 'tweakpane';
 
 	export let parent: Pane | FolderApi | TabPageApi;
@@ -17,13 +24,11 @@
 	});
 
 	const dispatch = createEventDispatcher<{
-		change: TpChangeEvent<unknown>;
-		select: TpTabSelectEvent;
-		update: TpUpdateEvent<unknown>;
+		change: TpChangeEvent<unknown, BladeApi<BladeController<View>>>;
+		select: TpTabSelectEvent<TabApi>;
 	}>();
 	tabApi.on('change', (event) => dispatch('change', event));
 	tabApi.on('select', (event) => dispatch('select', event));
-	tabApi.on('update', (event) => dispatch('update', event));
 
 	$: pages.forEach((page, i) => {
 		tabApi.pages[i].title = page.title;

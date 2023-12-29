@@ -15,13 +15,13 @@
 
 	if (pane) {
 		parentApi = pane;
-		parentRackElement = parentApi.controller_.rackController.view.element;
+		parentRackElement = parentApi.controller.rackController.element;
 	} else if (folder) {
 		parentApi = folder;
-		parentRackElement = parentApi.controller_.rackController.view.element;
+		parentRackElement = parentApi.controller.rackController.element;
 	} else if (tab) {
 		parentApi = tab.api.pages[tab.pageIndex];
-		parentRackElement = parentApi.controller_.contentController.view.element;
+		parentRackElement = parentApi.controller.rackController.element;
 	} else {
 		throw 'pane or parentFolder or tab must be provided';
 	}

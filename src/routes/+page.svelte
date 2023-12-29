@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { writable } from 'svelte/store';
 
-	import { Button, Folder, Input, Monitor, Pane, Tab } from '$lib';
+	import { Binding, Blade, Button, Folder, Pane, Tab } from '$lib';
 
 	const title = 'pane';
 
@@ -13,7 +13,11 @@
 
 	const key = 'key';
 	const paramsStore = writable({ [key]: 50 });
-	const optParams = {};
+	const monitorParams = {
+		readonly: true,
+		interval: 32
+	};
+	const inputParams = {};
 </script>
 
 <div class="outer">
@@ -21,21 +25,31 @@
 		{#if container}
 			<Pane {title} {container} let:pane on:fold={handleFold}>
 				<Tab parent={pane} pages={[{ title: 'input/monitor' }, { title: 'folder' }]} let:tab>
-					<Monitor
+					<Binding
 						parent={tab.pages[0]}
 						{paramsStore}
-						monitorParams={optParams}
+						bindingParams={monitorParams}
 						{key}
-						interval={32}
-						let:monitorElement
+						let:bindingApi
 					/>
-					<Input
+					<Binding
 						parent={tab.pages[0]}
 						{paramsStore}
-						inputParams={optParams}
+						bindingParams={inputParams}
 						onChange={(ev) => console.log(ev.value)}
 						{key}
-						let:inputElement
+						let:bindingApi
+					/>
+					<Blade
+						parent={tab.pages[0]}
+						bladeParams={{
+							view: 'slider',
+							label: 'brightness',
+							min: 0,
+							max: 1,
+							value: 0.5
+						}}
+						let:bladeApi
 					/>
 
 					<Folder tab={{ api: tab, pageIndex: 1 }} title={'folder'} let:folder>
@@ -48,13 +62,9 @@
 </div>
 
 <style>
-	.container {
-		display: flex;
-	}
-
 	.outer {
 		display: flex;
-		place-content: center;
+		justify-content: center;
 
 		position: absolute;
 		top: 50%;
@@ -69,5 +79,8 @@
 		transform: translate(-50%, -50%);
 
 		border-radius: 0.5rem;
+	}
+	.container {
+		width: 20rem;
 	}
 </style>
